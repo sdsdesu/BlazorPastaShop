@@ -1,0 +1,85 @@
+﻿@page "/winkelmandje"
+@using BlazorPastaShop.Blazor.Client.Models
+@using BlazorPastaShop.Blazor.Client.Service
+@inject Blazored.SessionStorage.ISessionStorageService SessionStorage
+@inject BestellingService bestellingService
+
+<h3>Jouw Winkelmandje</h3>
+@if (bestellingen.Count == 0)
+{
+
+    <div>@melding</div>
+
+    <div>Jouw mandje bevat op dit moment geen bestellingen.</div>
+
+
+
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Pastasoort</th>
+                <th>Grootte</th>
+                <th>Saus</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var bestelling in bestellingen)
+            {
+                <tr>
+                    <td>@bestelling.Pasta</td>
+                    <td>@bestelling.Grootte</td>
+                    <td>@bestelling.Saus</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button class="btn btn-green" @onclick="BestellingDoorvoeren">Bestelling doorvoeren</button>
+
+
+}
+
+
+
+
+
+
+@code {
+    public List<BestellingModel> bestellingen { get; set; } = new();
+    public string melding { get; set; }
+    
+   
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            bestellingen = await SessionStorage.GetItemAsync<List<BestellingModel>>("bestellingen")
+                ?? new List<BestellingModel>();
+            StateHasChanged();
+        }
+    }
+    
+    private async Task BestellingDoorvoeren()
+    {
+        var success = await bestellingService.PostBestellingen(bestellingen);
+        if (success)
+        {
+            await SessionStorage.RemoveItemAsync("bestellingen");
+            bestellingen.Clear();
+            melding = "✅ De bestelling id doorgestuurd!";
+
+        }
+        else
+        {
+            melding = "⚠️ Er ging iets mis bij het doorvoeren van één of meerdere bestellingen.";
+        }
+
+
+
+    }
+
+
+}

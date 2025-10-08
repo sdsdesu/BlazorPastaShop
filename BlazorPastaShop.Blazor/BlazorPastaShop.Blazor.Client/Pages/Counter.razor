@@ -1,0 +1,33 @@
+﻿@page "/counter"
+@inject Blazored.SessionStorage.ISessionStorageService sessionStore
+@rendermode InteractiveAuto
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="async () => await IncrementCountAsync()">Click me</button>
+
+@code {
+    private int currentCount = 0;
+
+    private async Task IncrementCountAsync()
+    {
+        currentCount++;
+        await sessionStore.SetItemAsync<int>("counter", currentCount);
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            int? sessionCounter = await sessionStore.GetItemAsync<int>("counter");
+            if (sessionCounter == null)
+                currentCount = 0;
+            else
+                currentCount = (int)sessionCounter;
+            StateHasChanged();
+        }
+    }
+}

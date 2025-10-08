@@ -1,0 +1,74 @@
+﻿@page "/nieuwsbrief"
+@using BlazorPastaShop.Blazor.Client.Models
+@using BlazorPastaShop.Blazor.Client.Service
+@inject KlantService klantService
+
+
+@if (string.IsNullOrEmpty(melding))
+{
+    <h3>Inschrijven voor de nieuwsbrief</h3>
+
+    <EditForm formname="nieuwsbriefForm" Model="klant" OnValidSubmit="Inschrijven">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label>Voornaam:</label>
+            <InputText @bind-Value="klant.Voornaam" class="form-control" />
+            <ValidationMessage For="@(() => klant.Voornaam)" />
+        </div>
+
+        <div class="mb-3">
+            <label>Naam:</label>
+            <InputText @bind-Value="klant.Naam" class="form-control" />
+            <ValidationMessage For="@(() => klant.Naam)" />
+        </div>
+
+        <div class="mb-3">
+            <label>Email:</label>
+            <InputText @bind-Value="klant.Email" type="email" class="form-control" />
+            <ValidationMessage For="@(() => klant.Email)" />
+        </div>
+
+        <div class="mb-3">
+            <label>Telefoon:</label>
+            <InputText @bind-Value="klant.Telefoon" class="form-control" />
+            <ValidationMessage For="@(() => klant.Telefoon)" />
+        </div>
+
+        <div class="mb-3">
+            <label>Geboortedatum:</label>
+            <InputDate @bind-Value="klant.Geboortedatum" class="form-control" />
+            <ValidationMessage For="@(() => klant.Geboortedatum)" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Inschrijven</button>
+    </EditForm>
+}
+else
+{
+    <div class="alert alert-success mt-3">
+        <h4>Welkom @klant.Voornaam!</h4>
+        <p>De nieuwsbrief wordt verstuurd naar <strong>@klant.Email</strong></p>
+    </div>
+}
+
+@code {
+    private KlantModel klant = new();
+    private string? melding;
+
+    private async Task Inschrijven()
+    {
+        bool success = await klantService.PostKlant(klant);
+
+        if (success)
+        {
+            melding = $"✅ Bedankt {klant.Voornaam}, je bent ingeschreven!";
+            klant = new();
+        }
+        else
+        {
+            melding = "⚠️ Er is iets misgegaan bij het inschrijven.";
+        }
+    }
+}
