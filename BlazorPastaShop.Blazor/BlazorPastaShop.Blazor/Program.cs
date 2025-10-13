@@ -13,7 +13,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddBlazoredSessionStorage();
 builder.Services.AddScoped(sp => new HttpClient
 {
-    BaseAddress = new Uri("https://localhost:7051/") // <-- jouw API-adres
+    BaseAddress = new Uri("https://localhost:7051/") 
 });
 builder.Services.AddScoped<KlantService>();
 builder.Services.AddScoped<BestellingService>();

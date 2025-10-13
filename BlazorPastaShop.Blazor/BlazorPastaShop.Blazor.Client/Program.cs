@@ -10,6 +10,7 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.Services.AddScoped(sp => new HttpClient
 {
     BaseAddress = new Uri("https://localhost:7051/") // poort van jouw API
+
 });
 builder.Services.AddScoped<KlantService>();
 builder.Services.AddScoped<BestellingService>();

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorPastaShop.Data.Migrations
 {
     [DbContext(typeof(BlazorPastaShopDbContext))]
-    [Migration("20251001121620_Aanpassing1")]
-    partial class Aanpassing1
+    [Migration("20251008140711_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,7 +36,7 @@ namespace BlazorPastaShop.Data.Migrations
                     b.Property<int>("Grootte")
                         .HasColumnType("int");
 
-                    b.Property<int>("PastaSoort")
+                    b.Property<int>("Pasta")
                         .HasColumnType("int");
 
                     b.Property<int>("Saus")

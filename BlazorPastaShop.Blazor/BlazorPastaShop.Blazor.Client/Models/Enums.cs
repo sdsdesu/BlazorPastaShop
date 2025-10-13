@@ -1,18 +1,18 @@
 ﻿namespace BlazorPastaShop.Blazor.Client.Models
 {
-    public enum PastaSoort
+    public enum Pasta
     {
-        Penne = 1, Spaghetti = 2, Fusilli = 3, Lasagne = 4
+        Penne , Spaghetti , Fusilli , Lasagne
     }
 
     public enum Grootte
     {
-        Small = 1, Regular = 2, Big = 3,
+        Small, Regular, Big,
 
     }
 
     public enum GekozenSaus
     {
-        Bolognese = 1, Veggie = 2, Curry = 3, Arrabiata = 4, Pesto = 5,
+        Bolognese, Veggie, Curry, Arrabiata, Pesto,
     }
 }

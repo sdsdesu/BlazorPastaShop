@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\BlazorPastaShop.Blazor.Client\Pages\Component.razor" Link="Component.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BlazorPastaShop.Blazor.Client\BlazorPastaShop.Blazor.Client.csproj" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
     <PackageReference Include="Blazored.SessionStorage.TestExtensions" Version="2.4.0" />

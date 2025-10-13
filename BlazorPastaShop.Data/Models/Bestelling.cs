@@ -12,7 +12,7 @@ namespace BlazorPastaShop.Data.Models
 
         // Foreign keys
         // public int KlantId { get; set; }
-        public PastaSoort PastaSoort { get; set; }
+        public Pasta Pasta { get; set; }
         public Grootte Grootte { get; set; }
         public GekozenSaus Saus { get; set; }
     }

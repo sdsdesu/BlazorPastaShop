@@ -33,7 +33,7 @@ namespace BlazorPastaShop.Data.Migrations
                     b.Property<int>("Grootte")
                         .HasColumnType("int");
 
-                    b.Property<int>("PastaSoort")
+                    b.Property<int>("Pasta")
                         .HasColumnType("int");
 
                     b.Property<int>("Saus")

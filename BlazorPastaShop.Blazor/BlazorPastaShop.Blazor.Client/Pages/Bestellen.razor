@@ -1,4 +1,5 @@
-﻿@page "/bestellen"
+﻿@rendermode InteractiveAuto
+@page "/bestellen"
 @using BlazorPastaShop.Blazor.Client.Models
 @inject Blazored.SessionStorage.ISessionStorageService sessionStore
 
@@ -7,32 +8,32 @@
 <EditForm FormName="bestelForm" Model="bestelling" OnValidSubmit="VoegBestellingToe">
     <div class="mb-3">
         <label>Pasta:</label>
-        <select @bind="bestelling.Pasta">
-            @foreach (var soort in Enum.GetValues<PastaSoort>())
+        <InputSelect @bind-value="bestelling.Pasta" >
+            @foreach (var soort in Enum.GetValues<Pasta>())
             {
-                <option value="@soort">@soort</option>
+                <option value="@soort">@soort.ToString()</option>
             }
-        </select>
+        </InputSelect>
     </div>
 
     <div class="mb-3">
         <label>Grootte:</label>
-        <select @bind="bestelling.Grootte">
+        <InputSelect @bind-value="bestelling.Grootte">
             @foreach (var grootte in Enum.GetValues<Grootte>())
             {
                 <option value="@grootte">@grootte</option>
             }
-        </select>
+        </InputSelect>
     </div>
 
     <div class="mb-3">
         <label>Saus:</label>
-        <select @bind="bestelling.Saus">
+        <InputSelect @bind-value="bestelling.Saus">
             @foreach (var saus in Enum.GetValues<GekozenSaus>())
             {
                 <option value="@saus">@saus</option>
             }
-        </select>
+        </InputSelect>
     </div>
 
     <button type="submit" class="btn btn-primary">Voeg bestelling toe</button>
@@ -46,21 +47,20 @@
 }
 
 @code {
-    private BestellingModel bestelling = new();
+    private BestellingModel bestelling = new BestellingModel();
     private List<BestellingModel> bestellingenInWinkelkar = new List<BestellingModel> ();
     private string? melding;
     private int aantalBestellingen => bestellingenInWinkelkar?.Count ?? 0;
-    private bool jsReady = false;
+   
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        bool gelezen= true; // hier passeer ik nooit
         if (firstRender)
         {
             var opgeslagen = await sessionStore.GetItemAsync<List<BestellingModel>>("bestellingen");
             if (opgeslagen != null)
                 bestellingenInWinkelkar = opgeslagen;
-            jsReady = true; // JavaScript klaar
+            
 
             StateHasChanged();
         }
@@ -69,13 +69,12 @@
 
     private async Task VoegBestellingToe()
     {
-        if (!jsReady)
-            return;
+        
         bestellingenInWinkelkar.Add(bestelling);
         await sessionStore.SetItemAsync("bestellingen", bestellingenInWinkelkar);
 
         melding = $"✅ Bestelling toegevoegd! ({aantalBestellingen} in mandje)";
-        bestelling = new();
-        StateHasChanged();
+        bestelling = new BestellingModel();
+      //  StateHasChanged();
     }
 }
